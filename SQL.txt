@@ -1,0 +1,57 @@
+建立数据库
+           CREATE DATABASE Student
+              ON PRIMARY
+(
+  NAME=’Student_data’,
+  FILENAME=’E:\project\Student_data.mdf’,
+  SIZE=10MB,
+  MAXSIZE=300MB,
+FILEGORWTH=10%
+)
+LOG ON
+(
+ NAME=’Student_log’,
+ FILENAME=’ E:\project\Student_log.ldf’,
+ SIZE=3MB,
+ FILEGROWTH=2MB
+)
+GO
+
+建立数据表
+
+CREATE TABLE dbo.stu_info(
+Sno varchar(50) PRIMARY KEY not null UNIQUE,
+Sname char(10) not null,
+Ssex char(5) not null
+CHECK (Ssex IN ( '男','女')),
+Sclass char(10) not null,
+Specialty char(20) not null
+
+CREATE TABLE dbo.Course(
+Cno char(10) not null PRIMARY KEY,
+Cname char(20) not null,
+Credit int  not null
+CHECK(Credit<5)
+)
+
+CREATE TABLE SC
+ (Cno   char(10)  NOT NULL,
+ Sno   varchar(50)  NOT NULL,  Grade  SMALLINT,  PRIMARY KEY(Sno,Cno), 				
+   FOREIGN KEY (Sno) REFERENCES stu_info(Sno),     FOREIGN KEY (Cno) REFERENCES Course(Cno) 	                      )
+
+CREATE TABLE Stu_st(
+SCode int PRIMARY KEY identity(1,1),
+Sname char(10) not null,
+SPhone char(10) not null UNIQUE,
+SAddress char(15) not null,
+SEmail char(10) check (SEmail like '%@%')
+)
+
+CREATE TABLE User_ID(
+Sno varchar(50) not null,
+Spass varchar(20) not null,
+PRIMARY KEY(Sno,Spass),
+FOREIGN KEY (Sno) REFERENCES stu_info (Sno) 	
+)
+
+
